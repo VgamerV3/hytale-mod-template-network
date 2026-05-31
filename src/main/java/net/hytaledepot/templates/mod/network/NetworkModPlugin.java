@@ -1,6 +1,5 @@
 package net.hytaledepot.templates.mod.network;
 
-import com.hypixel.hytale.protocol.GameMode;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.CommandBase;
@@ -103,12 +102,12 @@ public final class NetworkModPlugin extends JavaPlugin {
     private NetworkModStatusCommand() {
       super("hdnetworkmodstatus", "Shows runtime status for NetworkModPlugin.");
     setAllowsExtraArguments(true);
-      this.setPermissionGroup(GameMode.Adventure);
+      setPermissionGroups("hytale:Adventurer");
     }
 
     @Override
     protected void executeSync(CommandContext ctx) {
-      String sender = String.valueOf(ctx.sender().getDisplayName());
+      String sender = String.valueOf(ctx.sender().getUsername());
       String line =
           "[NetworkMod] lifecycle="
               + lifecycle
@@ -129,13 +128,13 @@ public final class NetworkModPlugin extends JavaPlugin {
     private NetworkModDemoCommand() {
       super("hdnetworkmoddemo", "Runs a demo action for NetworkModPlugin.");
     setAllowsExtraArguments(true);
-      this.setPermissionGroup(GameMode.Adventure);
+      setPermissionGroups("hytale:Adventurer");
     }
 
     @Override
     protected void executeSync(CommandContext ctx) {
       String action = parseAction(ctx.getInputString(), "sample");
-      String sender = String.valueOf(ctx.sender().getDisplayName());
+      String sender = String.valueOf(ctx.sender().getUsername());
 
       String response = service.runAction(sender, action, heartbeatTicks.get());
       ctx.sendMessage(Message.raw(response));
